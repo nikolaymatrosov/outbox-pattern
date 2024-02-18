@@ -1,0 +1,26 @@
+###
+# @name List Orders
+GET https://{{host}}/orders
+Content-Type: application/json
+
+###
+# @name Create Order
+POST https://{{host}}/orders
+Content-Type: application/json
+
+{
+  "orderId": "{{$uuid}}",
+  "customerId": "{{$uuid}}",
+    "orderItems": [
+        {
+        "productId": "{{$uuid}}",
+        "quantity": 1,
+        "price": 100
+        },
+        {
+        "productId": "{{$uuid}}",
+        "quantity": 2,
+        "price": 200
+        }
+    ]
+}

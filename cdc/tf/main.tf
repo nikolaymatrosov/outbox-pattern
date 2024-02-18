@@ -77,11 +77,14 @@ resource "yandex_function" "outbox-emitter" {
   ]
 }
 
-resource "yandex_function_trigger" "cron_trigger" {
-  name = "${local.prefix}cron-trigger"
+resource "yandex_function_trigger" "yds_trigger" {
+  name = "${local.prefix}yds-trigger"
 
-  timer {
-    cron_expression = "* * * * ? *" // every minute
+  data_streams {
+    stream_name = "orders/outbox/changefeed"
+    service_account_id = yandex_iam_service_account.trigger_sa.id
+    batch_cutoff = "1"
+    database = yandex_ydb_database_serverless.db.database_path
   }
   function {
     id                 = yandex_function.outbox-emitter.id

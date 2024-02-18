@@ -8,7 +8,7 @@ output "gateway_url" {
 
 output "rest_env" {
   value = {
-    table = {
+    cdc = {
       host = yandex_api_gateway.api_gateway.domain
     }
   }
