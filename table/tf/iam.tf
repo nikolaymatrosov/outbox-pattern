@@ -1,5 +1,5 @@
 resource "yandex_iam_service_account" "ymq_creator" {
-  name      = "ymq-creator"
+  name      = "${local.prefix}ymq-creator"
   folder_id = var.folder_id
 }
 
@@ -21,7 +21,7 @@ resource "yandex_iam_service_account_static_access_key" "ymq_creator" {
 
 
 resource "yandex_iam_service_account" "trigger_sa" {
-  name      = "ymq-trigger-sa"
+  name      = "${local.prefix}ymq-trigger-sa"
   folder_id = var.folder_id
 }
 
@@ -39,7 +39,7 @@ resource "yandex_resourcemanager_folder_iam_binding" "trigger_sa" {
 }
 
 resource "yandex_iam_service_account" "orders_sa" {
-  name      = "orders-sa"
+  name      = "${local.prefix}orders-sa"
   folder_id = var.folder_id
 }
 
@@ -57,7 +57,7 @@ resource "yandex_resourcemanager_folder_iam_binding" "orders_sa" {
 
 
 resource "yandex_iam_service_account" "outbox_reader" {
-  name        = "outbox-reader"
+  name        = "${local.prefix}outbox-reader"
   description = "Service account for service that read outbox messages from YDB and write them to YMQ."
   folder_id   = var.folder_id
 }
@@ -97,7 +97,7 @@ resource "yandex_resourcemanager_folder_iam_binding" "api_invoker" {
 }
 
 resource "yandex_iam_service_account" "payments_sa" {
-  name      = "payments-sa"
+  name      = "${local.prefix}payments-sa"
   folder_id = var.folder_id
 }
 

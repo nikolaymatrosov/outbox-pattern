@@ -1,5 +1,5 @@
 resource "yandex_ydb_database_serverless" "db" {
-  name      = "outbox-table"
+  name      = "${local.prefix}db"
   folder_id = var.folder_id
 }
 // Orders Service Tables

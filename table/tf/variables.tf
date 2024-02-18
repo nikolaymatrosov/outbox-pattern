@@ -1,3 +1,7 @@
+locals {
+  prefix = "outbox-table-"
+}
+
 variable "cloud_id" {
   type = string
 }

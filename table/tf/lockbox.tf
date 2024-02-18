@@ -1,5 +1,5 @@
 resource "yandex_lockbox_secret" "db-keys" {
-  name = "Database Access and Secret Keys"
+  name = "Database Access and Secret Keys for Outbox Table"
 }
 
 resource "yandex_lockbox_secret_version" "db-keys" {

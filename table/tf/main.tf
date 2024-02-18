@@ -15,8 +15,9 @@ data "archive_file" "function_files" {
     null_resource.build_typescript
   ]
 }
+
 resource "yandex_function" "orders-db-function" {
-  name              = "orders-db-function"
+  name              = "${local.prefix}orders"
   user_hash         = data.archive_file.function_files.output_sha256
   runtime           = "nodejs18"
   entrypoint        = "orders/app/app.handler"
@@ -39,7 +40,7 @@ resource "yandex_function" "orders-db-function" {
 
 
 resource "yandex_function" "outbox-emitter" {
-  name              = "outbox-emitter"
+  name              = "${local.prefix}emitter"
   user_hash         = data.archive_file.function_files.output_sha256
   runtime           = "nodejs18"
   entrypoint        = "orders/emitter/index.handler"
@@ -76,7 +77,7 @@ resource "yandex_function" "outbox-emitter" {
 }
 
 resource "yandex_function_trigger" "cron_trigger" {
-  name = "outbox-cron-trigger"
+  name = "${local.prefix}cron-trigger"
 
   timer {
     cron_expression = "* * * * ? *" // every minute
@@ -88,7 +89,7 @@ resource "yandex_function_trigger" "cron_trigger" {
 }
 
 resource "yandex_function" "payments" {
-  name              = "payments"
+  name              = "${local.prefix}payments"
   user_hash         = data.archive_file.function_files.output_sha256
   runtime           = "nodejs18"
   entrypoint        = "payments/index.handler"
@@ -111,7 +112,7 @@ resource "yandex_function" "payments" {
 
 
 resource "yandex_function_trigger" "ymq_trigger" {
-  name        = "payments-ymq-trigger"
+  name        = "${local.prefix}payments-ymq-trigger"
 
   message_queue {
     queue_id = yandex_message_queue.outbox.arn
